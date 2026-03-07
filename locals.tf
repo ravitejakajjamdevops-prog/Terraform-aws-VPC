@@ -12,6 +12,6 @@ locals {
            Name = "${var.project}-${var.environment}"
         }
     )    
-    
+    az_names = slice(data.aws_availability_zones.fetch.names,0,2)    
 
 }
