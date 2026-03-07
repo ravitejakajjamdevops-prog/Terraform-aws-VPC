@@ -90,7 +90,7 @@ resource "aws_eip" "elasticrobo" {
 }
 resource "aws_nat_gateway" "RoboNat" {
   allocation_id = aws_eip.elasticrobo.id
-  subnet_id     = aws_subnet.public[0].id
+  subnet_id     = aws_subnet.roboshop_database[0].id
   tags = merge(
         local.common_tags,
         {
