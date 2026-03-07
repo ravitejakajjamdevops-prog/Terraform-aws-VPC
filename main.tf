@@ -47,6 +47,15 @@ resource "aws_subnet" "roboshop_database" {
         }
   ) 
 }
+resource "aws_route_table" "RoboshopDev" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(
+        local.common_tags,
+        {
+            Name = "${var.project}-${var.environment}-public"
+        }
+  )
+}
 
 
 
