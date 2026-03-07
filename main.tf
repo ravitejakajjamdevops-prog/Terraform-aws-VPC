@@ -22,5 +22,31 @@ resource "aws_subnet" "roboshop_public" {
         }
   ) 
 }
+resource "aws_subnet" "roboshop_private" {
+  count = length(var.Private_subnet)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.private_subnet[count.index]
+  availability_zone = local.az_names[count.index]
+  tags = merge(
+        local.common_tags,
+        {
+            Name = "${var.project}-${var.environment}-private-${local.az_names[count.index]}"
+        }
+  ) 
+}
+
+resource "aws_subnet" "roboshop_database" {
+  count = length(var.database_subnet)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.database_subnet[count.index]
+  availability_zone = local.az_names[count.index]
+  tags = merge(
+        local.common_tags,
+        {
+            Name = "${var.project}-${var.environment}-database-${local.az_names[count.index]}"
+        }
+  ) 
+}
+
 
 

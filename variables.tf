@@ -17,3 +17,11 @@ variable "Public_subnet" {
     type = list
     default = ["10.0.13.0/24","10.0.14.0/24"]
 }
+variable "Private_subnet" {
+    type = list
+    default = ["10.0.23.0/24","10.0.24.0/24"]
+}
+variable "database_subnet" {
+    type = list
+    default = ["10.0.33.0/24","10.0.34.0/24"]
+}
