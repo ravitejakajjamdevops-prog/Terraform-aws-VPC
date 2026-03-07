@@ -47,7 +47,7 @@ resource "aws_subnet" "roboshop_database" {
         }
   ) 
 }
-resource "aws_route_table" "RoboshopDev" {
+resource "aws_route_table" "Public_routetable" {
   vpc_id = aws_vpc.main.id
   tags = merge(
         local.common_tags,
@@ -56,6 +56,38 @@ resource "aws_route_table" "RoboshopDev" {
         }
   )
 }
-
-
-
+resource "aws_route" "Public-route" {
+  route_table_id            = aws_route_table.public.id
+  destination_cidr_block    = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.main.id
+}
+resource "aws_eip" "elasticrobo" {
+    domain   = "vpc"
+  tags = merge(
+        local.common_tags,
+        {
+            Name = "${var.project}-${var.environment}-nat"
+        }
+  )  
+}
+resource "aws_nat_gateway" "RoboNat" {
+  allocation_id = aws_eip.elasticrobo.id
+  subnet_id     = aws_subnet.public[0].id
+  tags = merge(
+        local.common_tags,
+        {
+            Name = "${var.project}-${var.environment}-NGAT"
+        }
+  )  
+  depends_on = [aws_internet_gateway.main]
+}
+resource "aws_route" "Private-route" {
+  route_table_id            = aws_route_table.public.id
+  destination_cidr_block    = "0.0.0.0/0"
+  nat_gateway_id = aws_nat_gateway.RoboNat.id
+}
+resource "aws_route" "Database-route" {
+  route_table_id            = aws_route_table.public.id
+  destination_cidr_block    = "0.0.0.0/0"
+  nat_gateway_id = aws_nat_gateway.RoboNat.id
+}
