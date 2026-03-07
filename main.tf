@@ -109,3 +109,18 @@ resource "aws_route" "Database-route" {
   destination_cidr_block    = "0.0.0.0/0"
   nat_gateway_id = aws_nat_gateway.RoboNat.id
 }
+resource "aws_route_table_association" "public" {
+  count = length(var.Public_subnet)
+  subnet_id      = aws_subnet.roboshop_public[count.index].id
+  route_table_id = aws_route_table.Public_routetable_routetable[count.index].id
+}
+resource "aws_route_table_association" "private" {
+  count = length(var.Private_subnet)
+  subnet_id      = aws_subnet.roboshop_private[count.index].id
+  route_table_id = aws_route_table.Private_routetable[count.index].id
+}
+resource "aws_route_table_association" "database" {
+  count = length(var.database_subnet)
+  subnet_id      = aws_subnet.roboshop_database[count.index].id
+  route_table_id = aws_route_table.database_routetable[count.index].id
+}
