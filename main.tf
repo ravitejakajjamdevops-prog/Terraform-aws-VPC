@@ -9,3 +9,11 @@ resource "aws_internet_gateway" "Loukya" {
 
   tags = local.vpc_final_tags
 }
+resource "aws_subnet" "roboshop_public" {
+  count = length(var.Public_subnet)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.Public_subnet[count.index]
+
+  tags = local.vpc_final_tags
+  }
+}
