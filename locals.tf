@@ -13,5 +13,6 @@ locals {
         }
     )    
     az_names = slice(data.aws_availability_zones.fetch.names,0,2)    
-
+    #Roboshop-dev-public-US-east-1a
+    
 }
