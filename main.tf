@@ -97,7 +97,7 @@ resource "aws_nat_gateway" "RoboNat" {
             Name = "${var.project}-${var.environment}-NGAT"
         }
   )  
-  depends_on = [aws_internet_gateway.main]
+  depends_on = [aws_internet_gateway.Loukya]
 }
 resource "aws_route" "Private-route" {
   route_table_id            = aws_route_table.Private_routetable.id
