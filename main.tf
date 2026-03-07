@@ -56,8 +56,26 @@ resource "aws_route_table" "Public_routetable" {
         }
   )
 }
+resource "aws_route_table" "Private_routetable" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(
+        local.common_tags,
+        {
+            Name = "${var.project}-${var.environment}-private"
+        }
+  )
+}
+resource "aws_route_table" "database_routetable" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(
+        local.common_tags,
+        {
+            Name = "${var.project}-${var.environment}-database"
+        }
+  )
+}
 resource "aws_route" "Public-route" {
-  route_table_id            = aws_route_table.public.id
+  route_table_id            = aws_route_table.Public_routetable.id
   destination_cidr_block    = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.main.id
 }
@@ -82,12 +100,12 @@ resource "aws_nat_gateway" "RoboNat" {
   depends_on = [aws_internet_gateway.main]
 }
 resource "aws_route" "Private-route" {
-  route_table_id            = aws_route_table.public.id
+  route_table_id            = aws_route_table.Private_routetable.id
   destination_cidr_block    = "0.0.0.0/0"
   nat_gateway_id = aws_nat_gateway.RoboNat.id
 }
 resource "aws_route" "Database-route" {
-  route_table_id            = aws_route_table.public.id
+  route_table_id            = aws_route_table.database_routetable.id
   destination_cidr_block    = "0.0.0.0/0"
   nat_gateway_id = aws_nat_gateway.RoboNat.id
 }
