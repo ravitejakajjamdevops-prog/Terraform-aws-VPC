@@ -15,5 +15,6 @@ resource "aws_subnet" "roboshop_public" {
   cidr_block = var.Public_subnet[count.index]
 
   tags = local.vpc_final_tags
-  }
 }
+
+
