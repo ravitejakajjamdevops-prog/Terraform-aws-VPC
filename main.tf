@@ -112,7 +112,7 @@ resource "aws_route" "Database-route" {
 resource "aws_route_table_association" "public" {
   count = length(var.Public_subnet)
   subnet_id      = aws_subnet.roboshop_public[count.index].id
-  route_table_id = aws_route_table.Public_routetable_routetable[count.index].id
+  route_table_id = aws_route_table.Public_routetable[count.index].id
 }
 resource "aws_route_table_association" "private" {
   count = length(var.Private_subnet)
