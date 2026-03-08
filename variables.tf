@@ -25,7 +25,7 @@ variable "database_subnet" {
     type = list
     default = ["10.0.33.0/24","10.0.34.0/24"]
 }
-variable "Is_peering_required" {
+variable "is_peering_required" {
     type = bool
     default = false
 }
