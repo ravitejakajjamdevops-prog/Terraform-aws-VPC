@@ -4,7 +4,7 @@ output "azs_info" {
 output "vpc_id" {
     value = aws_vpc.main.id
 }
-output "Public_subnet_ids1" {
+output "Public_subnet_ids" {
     value = aws_subnet.roboshop_public[*].id
 }
 output "Private_subnet_ids" {
